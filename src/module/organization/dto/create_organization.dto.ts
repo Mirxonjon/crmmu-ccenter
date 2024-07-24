@@ -16,7 +16,7 @@ export class CreateApplicationCallCenterDto {
   district_id: string;
 
   @IsString()
-  @IsNotEmpty()
+
   applicant: string;
 
   @IsString()
@@ -38,7 +38,7 @@ export class CreateApplicationCallCenterDto {
   income_date: string;
 
   @IsString()
-  // @IsNotEmpty()
+  @IsNotEmpty()
   incoming_number: string;
 
   @IsString()
