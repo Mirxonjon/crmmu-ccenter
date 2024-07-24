@@ -37,9 +37,9 @@ export class CreateApplicationCallCenterDto {
   @IsString()
   income_date: string;
 
-  @IsString()
-  @IsNotEmpty()
-  incoming_number: string;
+  // @IsString()
+  // @IsNotEmpty()
+  // incoming_number: string;
 
   @IsString()
   organization_name: string;

@@ -1,7 +1,7 @@
 import { DocumentBuilder } from '@nestjs/swagger';
 
 export const swaggerConfig = new DocumentBuilder()
-  .setTitle('crm project')
+  .setTitle('crm MU project')
   .setVersion('1.0')
   .addBearerAuth(
     {
