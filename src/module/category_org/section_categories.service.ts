@@ -491,6 +491,151 @@ export class SectionCategoriesService {
     }
   }
 
+  async statisticsWithRegion( fromDate: string, untilDate: string) {
+    if(fromDate == 'null' || untilDate == 'null'  ) {
+      const ApplicationAllcount = await ApplicationCallCenterEntity.count()
+      const findRegions = await Region_Entity.find({
+        order: {
+          create_data: 'desc'
+        }
+      });
+
+      let  allResultat = []
+
+      for(let e of findRegions) {
+        const findApplication = await ApplicationCallCenterEntity.count({
+          where : {
+            districts : {
+              region : {
+                id : e.id 
+              }
+            }
+          }
+        })
+
+        allResultat.push({
+          ...e,
+          applicationCountRegion: findApplication,
+          // ApplicationAllcount ,
+          // percentage : findApplication/ApplicationAllcount * 100 ,
+        })
+      }
+      return allResultat
+    } else {
+
+      const fromDateFormatted = new Date(
+        parseInt(fromDate.split('.')[2]),
+        parseInt(fromDate.split('.')[1]) - 1,
+        parseInt(fromDate.split('.')[0]),
+      );
+      const untilDateFormatted = new Date(
+        parseInt(untilDate.split('.')[2]),
+        parseInt(untilDate.split('.')[1]) - 1,
+        parseInt(untilDate.split('.')[0]),
+      );
+
+      const ApplicationAllcount = await ApplicationCallCenterEntity.count({
+        where :{
+          create_data : Between(fromDateFormatted, untilDateFormatted),
+        }
+      })
+      const findRegions = await Region_Entity.find({
+        order: {
+          create_data: 'desc'
+        }
+      });
+
+      let  allResultat = []
+
+      for(let e of findRegions) {
+        const findApplication = await ApplicationCallCenterEntity.count({
+          where : {
+              create_data : Between(fromDateFormatted, untilDateFormatted),
+            districts : {
+              region : {
+                id : e.id 
+              }
+            }
+          }
+        })
+
+        allResultat.push({
+          ...e,
+          applicationCountRegion: findApplication,
+          // ApplicationAllcount ,
+          // percentage : findApplication/ApplicationAllcount * 100 ,
+        })
+      }
+      return allResultat
+    }
+  }
+
+  async statisticsWithCategory (fromDate: string, untilDate: string) {
+
+    if(fromDate == 'null' || untilDate == 'null'  ) {
+      const findCategory = await Category_Section_Entity.find({})
+      let arr = []
+      for(let e of findCategory) {
+        const findApplicationCount = await ApplicationCallCenterEntity.count({
+          where: {
+            sub_category_call_center : {
+              category_org: {
+                id :e.id
+              }
+            }
+          }
+        })
+        console.log(e);
+        
+  
+        arr.push({
+          ...e, findApplicationCount: findApplicationCount 
+        })
+      }
+  
+      arr.sort((a, b) => b.findApplicationCount - a.findApplicationCount);
+      return arr
+    } else {
+
+    const fromDateFormatted = new Date(
+      parseInt(fromDate.split('.')[2]),
+      parseInt(fromDate.split('.')[1]) - 1,
+      parseInt(fromDate.split('.')[0]),
+    );
+    const untilDateFormatted = new Date(
+      parseInt(untilDate.split('.')[2]),
+      parseInt(untilDate.split('.')[1]) - 1,
+      parseInt(untilDate.split('.')[0]),
+    );
+
+    const findCategory = await Category_Section_Entity.find({})
+    let arr = []
+    for(let e of findCategory) {
+      const findApplicationCount = await ApplicationCallCenterEntity.count({
+        where: {
+          create_data : Between(fromDateFormatted, untilDateFormatted),
+          sub_category_call_center : {
+            category_org: {
+              id :e.id
+            }
+          }
+        }
+      })
+      console.log(e);
+      
+
+      arr.push({
+        ...e, findApplicationCount: findApplicationCount 
+      })
+    }
+
+    arr.sort((a, b) => b.findApplicationCount - a.findApplicationCount);
+    return arr
+  }
+  
+}
+
+
   async findAll(  title : string,  pageNumber = 1,
     pageSize = 10,) {
       const offset = (pageNumber - 1) * pageSize;
