@@ -49,7 +49,7 @@ async findallstatisticsfilter(
         skip: offset,
         take: pageSize,
         order: {
-          create_data: 'desc',
+          create_data: 'asc',
         },
       }).catch((e) => {
         throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
@@ -107,7 +107,7 @@ async findallstatisticsfilter(
         skip: offset,
         take: pageSize,
         order: {
-          create_data: 'desc',
+          create_data: 'asc',
         },
       }).catch((e) => {
         throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
@@ -181,7 +181,7 @@ async findallstatisticsfilter(
         skip: offset,
         take: pageSize,
         order: {
-          create_data: 'desc',
+          create_data: 'asc',
         },
       }).catch((e) => {
         throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
@@ -242,7 +242,7 @@ async findallstatisticsfilter(
         skip: offset,
         take: pageSize,
         order: {
-          create_data: 'desc',
+          create_data: 'asc',
         },
       }).catch((e) => {
         throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
@@ -315,7 +315,7 @@ async findallstatisticsfilter(
         skip: offset,
         take: pageSize,
         order: {
-          create_data: 'desc',
+          create_data: 'asc',
         },
       }).catch((e) => {
         throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
@@ -417,7 +417,7 @@ async findallstatisticsfilter(
         user : true
       },
       order: {
-        create_data: 'desc',
+        create_data: 'asc',
         history: {
           create_data: 'desc'
         }

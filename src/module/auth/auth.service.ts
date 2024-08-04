@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from './dto/create_user.dto';
 import { UsersEntity } from 'src/entities/users.entity';
@@ -245,7 +245,7 @@ return finduser
     const user = await UsersEntity.findOne({
       where: { id },
     }).catch(() => {
-      throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     });
     if (user && user.password === pass) {
       const { password, ...result } = user;
