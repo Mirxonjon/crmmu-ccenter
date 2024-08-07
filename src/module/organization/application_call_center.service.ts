@@ -138,7 +138,6 @@ export class ApplicationCallCenterServise {
     applicant: string,
     applicant_birthday: string,
     phone: string,
-
     fromDate: string,
     untilDate: string,
     pageNumber = 1,
@@ -154,7 +153,7 @@ export class ApplicationCallCenterServise {
           applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
           phone: phone == 'null' ? null : ILike(`%${phone}%`),
           additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday,
+          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
           response: response == 'null' ? null : response,
           IsDraf: 'false',
           sub_category_call_center: {
@@ -223,7 +222,7 @@ export class ApplicationCallCenterServise {
           response: response == 'null' ? null : response,
           phone: phone == 'null' ? null : ILike(`%${phone}%`),
           additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday,
+          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
           IsDraf: 'false',
           sub_category_call_center: {
             id: subCategoryId == 'null' ? null : subCategoryId,
@@ -298,7 +297,7 @@ export class ApplicationCallCenterServise {
           response: response == 'null' ? null : response,
           phone: phone == 'null' ? null : ILike(`%${phone}%`),
           additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday,
+          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
           IsDraf: 'true',
           sub_category_call_center: {
             id: subCategoryId == 'null' ? null : subCategoryId,
@@ -366,7 +365,7 @@ export class ApplicationCallCenterServise {
           response: response == 'null' ? null : response,
           phone: phone == 'null' ? null : ILike(`%${phone}%`),
           additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday,
+          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
           IsDraf: 'true',
           sub_category_call_center: {
             id: subCategoryId == 'null' ? null : subCategoryId,
