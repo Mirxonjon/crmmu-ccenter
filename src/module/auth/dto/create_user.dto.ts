@@ -1,7 +1,6 @@
 import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class CreateUserDto {
-
   @IsString()
   @IsNotEmpty()
   full_name: string;

@@ -105,15 +105,51 @@ export class ApplicationCallCenterEntity extends BaseEntity {
 
   @Column({
     type: 'character varying',
+    nullable: true,
+  })
+  applicant_birthday: string;
+
+  @Column({
+    type: 'character varying',
+    nullable: true,
+  })
+  mfy: string;
+
+  @Column({
+    type: 'character varying',
+    nullable: true,
+  })
+  street_and_appartment: string;
+
+  @Column({
+    type: 'character varying',
+    nullable: true,
+  })
+  gender: string;
+
+  @Column({
+    type: 'character varying',
+    nullable: true,
+  })
+  operator_number: string;
+
+  @Column({
+    type: 'character varying',
+    nullable: true,
+  })
+  additional_phone: string;
+
+  @Column({
+    type: 'character varying',
     default: 'false',
-    nullable :true
+    nullable: true,
   })
   IsDraf: string;
 
   @ManyToOne(
     () => Sub_Category_Section_Entity,
     (sub_category_org) => sub_category_org.applicationCallcenter,
-    {nullable :true , onDelete: 'CASCADE'}
+    { nullable: true, onDelete: 'CASCADE' },
   )
   sub_category_call_center: Sub_Category_Section_Entity;
 
@@ -124,11 +160,9 @@ export class ApplicationCallCenterEntity extends BaseEntity {
   )
   districts: District_Entity;
 
-  @ManyToOne(
-    () => UsersEntity,
-    (user) => user.applicationCallCenter,
-    { nullable: true },
-  )
+  @ManyToOne(() => UsersEntity, (user) => user.applicationCallCenter, {
+    nullable: true,
+  })
   user: UsersEntity;
 
   @ManyToOne(
@@ -138,8 +172,6 @@ export class ApplicationCallCenterEntity extends BaseEntity {
   )
   seded_to_Organization: SendedOrganizationEntity;
 
-
-  
   @OneToMany(
     () => HistoryAplicationEntity,
     (history) => history.applicationCallCenter,

@@ -26,7 +26,6 @@ import { UpdateControlUserDto } from './dto/update-conrolUser.dto';
 import { RequiredRoles } from './guards/roles.decorator';
 import { RolesEnum } from 'src/types';
 
-
 @Controller('Auth')
 @ApiTags('Auth')
 export class AuthController {
@@ -37,7 +36,7 @@ export class AuthController {
   @ApiBody({
     schema: {
       type: 'object',
-      required: [ 'username','role' ,'password'],
+      required: ['username', 'role', 'password'],
       properties: {
         full_name: {
           type: 'string',
@@ -73,7 +72,6 @@ export class AuthController {
       type: 'object',
       required: ['username', 'password'],
       properties: {
-      
         username: {
           type: 'string',
           default: `Eshmat Eshmatov Eshmat o'g'li`,
@@ -98,10 +96,15 @@ export class AuthController {
     @Query('search') search: string,
     @Query('role') role: string,
     @Query('page') page: string,
-    @Query('pageSize') pageSize: string,) {
-    return await this.service.getAllControlUsers(search, role , +page , +pageSize);
+    @Query('pageSize') pageSize: string,
+  ) {
+    return await this.service.getAllControlUsers(
+      search,
+      role,
+      +page,
+      +pageSize,
+    );
   }
-
 
   @Patch('/updateUser/:id')
   @HttpCode(HttpStatus.NO_CONTENT)

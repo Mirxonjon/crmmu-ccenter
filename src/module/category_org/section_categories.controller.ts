@@ -47,15 +47,12 @@ export class SectionCategoriesController {
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
   @ApiOkResponse()
-  
-  async findall(  
+  async findall(
     @Query('search') search: string,
-    @Query('page') page: string,  
-  @Query('pageSize') pageSize: string,
-
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
   ) {
-    return await this.#_service.findAll(   search,   +page,
-      +pageSize,);
+    return await this.#_service.findAll(search, +page, +pageSize);
   }
 
   @Get('/statistics/filter?')
@@ -138,13 +135,9 @@ export class SectionCategoriesController {
     @Query('date_from') fromDate: string = 'null',
     @Query('date_to') untilDate: string = 'null',
   ) {
-    return await this.#_service.statisticsWithRegion(
-      fromDate,
-      untilDate,
-    );
+    return await this.#_service.statisticsWithRegion(fromDate, untilDate);
   }
 
-  
   @Get('/statisticsWithCategory?')
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
@@ -155,22 +148,20 @@ export class SectionCategoriesController {
     @Query('date_from') fromDate: string = 'null',
     @Query('date_to') untilDate: string = 'null',
   ) {
-    return await this.#_service.statisticsWithCategory(
-      fromDate,
-      untilDate,
-    );
+    return await this.#_service.statisticsWithCategory(fromDate, untilDate);
   }
-
 
   @Get('/one/:id?')
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
   @ApiOkResponse()
-  async findOne(@Param('id') id: string,
-  @Query('search') search: string,
-  @Query('page') page: string,
-@Query('pageSize') pageSize: string,) {
-    return await this.#_service.findOne(id ,search , +page , +pageSize);
+  async findOne(
+    @Param('id') id: string,
+    @Query('search') search: string,
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+  ) {
+    return await this.#_service.findOne(id, search, +page, +pageSize);
   }
 
   @RequiredRoles(RolesEnum.ADMIN)

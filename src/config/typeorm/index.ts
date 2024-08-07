@@ -9,7 +9,6 @@ import { District_Entity } from 'src/entities/district.entity';
 import { SendedOrganizationEntity } from 'src/entities/sende_organization.entity';
 import { HistoryAplicationEntity } from 'src/entities/history.entity';
 
-
 dotenv.config();
 
 export const connectDb: TypeOrmModuleOptions = {
@@ -27,7 +26,7 @@ export const connectDb: TypeOrmModuleOptions = {
     Region_Entity,
     District_Entity,
     SendedOrganizationEntity,
-    HistoryAplicationEntity
+    HistoryAplicationEntity,
   ],
   autoLoadEntities: true,
   synchronize: true,

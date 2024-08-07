@@ -30,7 +30,6 @@ import { RolesGuard } from './module/auth/guards/roles.guard';
     RegionCategoriesModule,
     DistrictModule,
     SendedOrganizationModule,
-
   ],
   controllers: [],
   providers: [

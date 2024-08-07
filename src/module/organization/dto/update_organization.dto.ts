@@ -45,7 +45,6 @@ export class UpdateApplicationCallCenterDto {
   @IsString()
   performer: string;
 
-
   @IsString()
   resend_application: string;
 
@@ -57,4 +56,16 @@ export class UpdateApplicationCallCenterDto {
 
   @IsString()
   IsDraf: string;
+
+  applicant_birthday: string;
+
+  mfy: string;
+
+  street_and_appartment: string;
+
+  operator_number: string;
+
+  additional_phone: string;
+
+  gender: string;
 }

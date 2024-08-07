@@ -46,23 +46,25 @@ export class RegionCategoriesController {
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
   @ApiOkResponse()
-  async findall( 
+  async findall(
     @Query('search') search: string,
     @Query('page') page: string,
-  @Query('pageSize') pageSize: string,) {
-    return await this.#_service.findAll(   search,   +page,
-      +pageSize,);
+    @Query('pageSize') pageSize: string,
+  ) {
+    return await this.#_service.findAll(search, +page, +pageSize);
   }
 
   @Get('/one/:id?')
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
   @ApiOkResponse()
-  async findOne(@Param('id') id: string,
-  @Query('search') search: string,
-  @Query('page') page: string,
-@Query('pageSize') pageSize: string,) {
-    return await this.#_service.findOne(id,search , +page , +pageSize);
+  async findOne(
+    @Param('id') id: string,
+    @Query('search') search: string,
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+  ) {
+    return await this.#_service.findOne(id, search, +page, +pageSize);
   }
 
   // @UseGuards(jwtGuard)
@@ -84,9 +86,7 @@ export class RegionCategoriesController {
   @ApiCreatedResponse()
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
-  async create(
-    @Body() createRegionDto: CreateRegionDto,
-  ) {
+  async create(@Body() createRegionDto: CreateRegionDto) {
     return await this.#_service.create(createRegionDto);
   }
 

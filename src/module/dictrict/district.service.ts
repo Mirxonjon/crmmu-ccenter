@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateDistrictDto } from './dto/create_district.dto';
 import { UpdateDistrictDto } from './dto/update_district.dto';
 import { District_Entity } from 'src/entities/district.entity';
@@ -7,12 +7,11 @@ import { ILike } from 'typeorm';
 
 @Injectable()
 export class DistrictServise {
-  async findAll( title :string,   pageNumber = 1,
-    pageSize = 10,) {
-      const offset = (pageNumber - 1) * pageSize;
+  async findAll(title: string, pageNumber = 1, pageSize = 10) {
+    const offset = (pageNumber - 1) * pageSize;
     const [results, total] = await District_Entity.findAndCount({
-      where : {
-        title : title == 'null' ? null: ILike(`%${title}%`),
+      where: {
+        title: title == 'null' ? null : ILike(`%${title}%`),
       },
       order: {
         create_data: 'desc',
@@ -84,15 +83,13 @@ export class DistrictServise {
     }
     let findRegion: Region_Entity | null = null;
     if (body.region_id) {
-      findRegion = await Region_Entity.findOne({ 
-        where :{
-          id: body.region_id
-        }
-       }).catch(
-        (e) => {
-          throw new HttpException('Not found Region', HttpStatus.NOT_FOUND);
+      findRegion = await Region_Entity.findOne({
+        where: {
+          id: body.region_id,
         },
-      );
+      }).catch((e) => {
+        throw new HttpException('Not found Region', HttpStatus.NOT_FOUND);
+      });
       if (!findRegion) {
         throw new HttpException('Not found Region', HttpStatus.NOT_FOUND);
       }

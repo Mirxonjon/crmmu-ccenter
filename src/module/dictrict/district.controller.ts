@@ -44,12 +44,12 @@ export class DistrictController {
   @ApiQuery({ name: 'saerch', required: false })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'pageSize', required: false })
-  async findall( 
-    @Query('saerch') title: string = 'null' , 
-    @Query('page',) page: string = '1',
-  @Query('pageSize') pageSize: string ='10' ,) {
-    return await this.#_service.findAll(   title,   +page,
-      +pageSize,);
+  async findall(
+    @Query('saerch') title: string = 'null',
+    @Query('page') page: string = '1',
+    @Query('pageSize') pageSize: string = '10',
+  ) {
+    return await this.#_service.findAll(title, +page, +pageSize);
   }
 
   @Get('/one/:id')
@@ -86,9 +86,7 @@ export class DistrictController {
   @ApiCreatedResponse()
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
-  async create(
-    @Body() createDistrictDto: CreateDistrictDto,
-  ) {
+  async create(@Body() createDistrictDto: CreateDistrictDto) {
     return await this.#_service.create(createDistrictDto);
   }
 

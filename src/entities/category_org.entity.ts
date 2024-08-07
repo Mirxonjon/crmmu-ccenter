@@ -35,7 +35,7 @@ export class Category_Section_Entity extends BaseEntity {
   @OneToMany(
     () => Sub_Category_Section_Entity,
     (sub_category_org) => sub_category_org.category_org,
-    {nullable :true , onDelete: 'CASCADE'}
+    { nullable: true, onDelete: 'SET NULL' },
   )
   sub_category_orgs: Sub_Category_Section_Entity[];
 

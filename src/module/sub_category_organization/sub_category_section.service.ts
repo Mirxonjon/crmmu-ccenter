@@ -9,13 +9,12 @@ import { ILike } from 'typeorm';
 
 @Injectable()
 export class SubCategorySectionServise {
-  async findAll(  title:string , pageNumber = 1,
-    pageSize = 10,) {
-      const offset = (pageNumber - 1) * pageSize;
+  async findAll(title: string, pageNumber = 1, pageSize = 10) {
+    const offset = (pageNumber - 1) * pageSize;
     const [results, total] = await Sub_Category_Section_Entity.findAndCount({
-      where : {
-        title : title == 'null' ? null: ILike(`%${title}%`),
-        },
+      where: {
+        title: title == 'null' ? null : ILike(`%${title}%`),
+      },
       skip: offset,
       take: pageSize,
       order: {
@@ -35,7 +34,7 @@ export class SubCategorySectionServise {
         pageSize,
         totalItems: total,
       },
-    }
+    };
   }
 
   async findOne(id: string) {
@@ -88,19 +87,17 @@ export class SubCategorySectionServise {
     }
     let findCategory: Category_Section_Entity | null = null;
     if (body.category_id) {
-      console.log('okkkk,' , body.category_id);
-      
-      findCategory = await Category_Section_Entity.findOne({ 
-        where :{
-          id : body.category_id
-        }
-      }).catch(
-        (e) => {
-          console.log(e);
-          
-          throw new HttpException('Not found Category', HttpStatus.NOT_FOUND);
+      console.log('okkkk,', body.category_id);
+
+      findCategory = await Category_Section_Entity.findOne({
+        where: {
+          id: body.category_id,
         },
-      );
+      }).catch((e) => {
+        console.log(e);
+
+        throw new HttpException('Not found Category', HttpStatus.NOT_FOUND);
+      });
       if (!findCategory) {
         throw new HttpException('Not found Category', HttpStatus.NOT_FOUND);
       }

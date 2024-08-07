@@ -22,22 +22,19 @@ export class Sub_Category_Section_Entity extends BaseEntity {
   })
   title: string;
 
-
   @ManyToOne(
     () => Category_Section_Entity,
     (category_org) => category_org.sub_category_orgs,
-    {nullable :true , onDelete: 'CASCADE'}
+    { nullable: true, onDelete: 'SET NULL' },
   )
   category_org: Category_Section_Entity;
 
   @OneToMany(
     () => ApplicationCallCenterEntity,
     (org) => org.sub_category_call_center,
-    {nullable :true,onDelete: 'CASCADE'}
+    { nullable: true, onDelete: 'CASCADE' },
   )
   applicationCallcenter: ApplicationCallCenterEntity[];
-
-
 
   @UpdateDateColumn({ name: 'updated_at' })
   update_date: Date;

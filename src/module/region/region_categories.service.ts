@@ -7,45 +7,40 @@ import { ILike } from 'typeorm';
 import { District_Entity } from 'src/entities/district.entity';
 @Injectable()
 export class RegionCategoriesService {
-  async findAll( title: string,  pageNumber = 1,
-    pageSize = 10,) {
-      const offset = (pageNumber - 1) * pageSize;
+  async findAll(title: string, pageNumber = 1, pageSize = 10) {
+    const offset = (pageNumber - 1) * pageSize;
     const [results, total] = await Region_Entity.findAndCount({
-      where : {
-        title : title == 'null' ? null: ILike(`%${title}%`),
-        },
-        relations : {
-          districts : true
-         },
-         order: {
-          create_data: 'desc',
-        },
-        select : {
+      where: {
+        title: title == 'null' ? null : ILike(`%${title}%`),
+      },
+      relations: {
+        districts: true,
+      },
+      order: {
+        create_data: 'desc',
+      },
+      select: {
+        id: true,
+        title: true,
+        create_data: true,
+        update_date: true,
+        districts: {
           id: true,
-          title :true,
-          create_data :true,
-          update_date :true,
-          districts : {
-            id:true
-          } ,
         },
+      },
       skip: offset,
       take: pageSize,
-
-
-    }).catch(
-      (e) => {
-        throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-      },
-    );
-    const resultsWithCount = results.map(result => ({
+    }).catch((e) => {
+      throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+    });
+    const resultsWithCount = results.map((result) => ({
       ...result,
       districts: result.districts.length,
     }));
     const totalPages = Math.ceil(total / pageSize);
-   
+
     return {
-      results : resultsWithCount,
+      results: resultsWithCount,
       pagination: {
         currentPage: pageNumber,
         totalPages,
@@ -53,32 +48,28 @@ export class RegionCategoriesService {
         totalItems: total,
       },
     };
-    
   }
 
-  async findOne(id: string, title: string , pageNumber = 1,
-    pageSize = 10) {
-      const offset = (pageNumber - 1) * pageSize;
-    const [results, total] =
-      await District_Entity.findAndCount({
-        where: {
-          title: title == 'null' ? null : ILike(`%${title}%`),
-          region : {
-            id :id
-          }
+  async findOne(id: string, title: string, pageNumber = 1, pageSize = 10) {
+    const offset = (pageNumber - 1) * pageSize;
+    const [results, total] = await District_Entity.findAndCount({
+      where: {
+        title: title == 'null' ? null : ILike(`%${title}%`),
+        region: {
+          id: id,
         },
-        relations: {
-          region: true,
-        },
- 
+      },
+      relations: {
+        region: true,
+      },
 
-        skip: offset,
-        take: pageSize,
-      });
-      const totalPages = Math.ceil(total / pageSize);
+      skip: offset,
+      take: pageSize,
+    });
+    const totalPages = Math.ceil(total / pageSize);
 
     return {
-      results ,
+      results,
       pagination: {
         currentPage: pageNumber,
         totalPages,

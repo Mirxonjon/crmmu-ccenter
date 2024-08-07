@@ -27,7 +27,6 @@ import { UpdateSendedOrganizationDto } from './dto/update_sended_organization.dt
 import { RolesEnum } from 'src/types';
 import { RequiredRoles } from '../auth/guards/roles.decorator';
 
-
 // @ApiTags('role')
 // @ApiBearerAuth('JWT-auth')
 // @UseGuards(RolesGuard)
@@ -46,11 +45,12 @@ export class SendedOrganizationController {
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
   @ApiOkResponse()
-  async findall( 
-    @Query('search') title: string,   @Query('page') page: string,
-  @Query('pageSize') pageSize: string,) {
-    return await this.#_service.findAll(  title ,   +page,
-      +pageSize,);
+  async findall(
+    @Query('search') title: string,
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+  ) {
+    return await this.#_service.findAll(title, +page, +pageSize);
   }
 
   @Get('/one/:id')

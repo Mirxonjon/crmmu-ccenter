@@ -39,8 +39,6 @@ export class ApplicationCallCenterController {
   readonly #_service: ApplicationCallCenterServise;
   constructor(service: ApplicationCallCenterServise) {
     this.#_service = service;
-
-    
   }
 
   @Get('/statistics/filter?')
@@ -95,6 +93,8 @@ export class ApplicationCallCenterController {
     @Query('operator') operator: string,
     @Query('response') response: string,
     @Query('applicant') applicant: string,
+    @Query('applicant_birthday') applicant_birthday: string,
+    @Query('phone') phone: string,
     @Query('date_from') fromDate: string,
     @Query('date_to') untilDate: string,
     @Query('page') page: string,
@@ -109,6 +109,8 @@ export class ApplicationCallCenterController {
       operator,
       response,
       applicant,
+      applicant_birthday,
+      phone,
       fromDate,
       untilDate,
       +page,
@@ -116,7 +118,6 @@ export class ApplicationCallCenterController {
     );
   }
 
-  
   @Get('/allDrafts')
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
@@ -134,6 +135,8 @@ export class ApplicationCallCenterController {
     @Query('operator') operator: string,
     @Query('response') response: string,
     @Query('applicant') applicant: string,
+    @Query('applicant_birthday') applicant_birthday: string,
+    @Query('phone') phone: string,
     @Query('date_from') fromDate: string,
     @Query('date_to') untilDate: string,
     @Query('page') page: string,
@@ -148,6 +151,8 @@ export class ApplicationCallCenterController {
       operator,
       response,
       applicant,
+      applicant_birthday,
+      phone,
       fromDate,
       untilDate,
       +page,
@@ -164,7 +169,7 @@ export class ApplicationCallCenterController {
   }
 
   // @UseGuards(jwtGuard)
-  @RequiredRoles(RolesEnum.OPERATOR,RolesEnum.ADMIN)
+  @RequiredRoles(RolesEnum.OPERATOR, RolesEnum.ADMIN)
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
   @ApiBody({
@@ -192,7 +197,7 @@ export class ApplicationCallCenterController {
           type: 'string',
           default: 'Мурожаатнинг қисқача мазмуни',
         },
-        phone :{
+        phone: {
           type: 'string',
           default: '998933843484',
         },
@@ -249,13 +254,13 @@ export class ApplicationCallCenterController {
     @Request() request: CustomRequest,
     @Body() createOrganizationDto: CreateApplicationCallCenterDto,
   ): Promise<void> {
-    console.log(request.userId ,'iiiiii');
-    
-    return await this.#_service.create(request ,createOrganizationDto);
+    // console.log(request.userId ,'iiiiii');
+
+    return await this.#_service.create(request, createOrganizationDto);
   }
 
   // @UseGuards(jwtGuard)
-  @RequiredRoles(RolesEnum.OPERATOR,RolesEnum.ADMIN)
+  @RequiredRoles(RolesEnum.OPERATOR, RolesEnum.ADMIN)
   @Patch('/update/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiBody({
@@ -283,7 +288,7 @@ export class ApplicationCallCenterController {
           default: 'Мурожаатнинг қисқача мазмуни',
         },
 
-        phone :{
+        phone: {
           type: 'string',
           default: '998933843484',
         },
@@ -331,7 +336,6 @@ export class ApplicationCallCenterController {
       },
     },
   })
-
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
   async update(
@@ -339,7 +343,7 @@ export class ApplicationCallCenterController {
     @Request() request: CustomRequest,
     @Body() updateOrganizationDto: UpdateApplicationCallCenterDto,
   ): Promise<void> {
-    await this.#_service.update(request , id , updateOrganizationDto);
+    await this.#_service.update(request, id, updateOrganizationDto);
   }
 
   // @UseGuards(jwtGuard)

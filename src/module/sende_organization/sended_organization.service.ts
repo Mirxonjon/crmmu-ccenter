@@ -6,23 +6,20 @@ import { SendedOrganizationEntity } from 'src/entities/sende_organization.entity
 import { ILike } from 'typeorm';
 @Injectable()
 export class SendedOrganizationService {
-  async findAll( title :string,    pageNumber = 1,
-    pageSize = 10,) {
-      const offset = (pageNumber - 1) * pageSize;
+  async findAll(title: string, pageNumber = 1, pageSize = 10) {
+    const offset = (pageNumber - 1) * pageSize;
     const [results, total] = await SendedOrganizationEntity.findAndCount({
-      where : {
-        title : title == 'null' ? null : ILike(`%${title}%`)
+      where: {
+        title: title == 'null' ? null : ILike(`%${title}%`),
       },
       skip: offset,
       take: pageSize,
       order: {
         create_data: 'desc',
-    }
-  }).catch(
-      (e) => {
-        throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
       },
-    );
+    }).catch((e) => {
+      throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+    });
     const totalPages = Math.ceil(total / pageSize);
     return {
       results,

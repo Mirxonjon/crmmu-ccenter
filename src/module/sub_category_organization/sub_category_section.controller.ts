@@ -40,11 +40,12 @@ export class SubCategorySectionController {
   @ApiBadRequestResponse()
   @ApiNotFoundResponse()
   @ApiOkResponse()
-  async findall( 
-    @Query('search') search: string,   @Query('page') page: string,
-  @Query('pageSize') pageSize: string,) {
-    return await this.#_service.findAll(   search,   +page,
-      +pageSize,);
+  async findall(
+    @Query('search') search: string,
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+  ) {
+    return await this.#_service.findAll(search, +page, +pageSize);
   }
 
   @Get('/one/:id')

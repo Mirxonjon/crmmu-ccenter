@@ -45,16 +45,15 @@ export class UsersEntity extends BaseEntity {
   })
   role: string;
 
-  @OneToMany(() => ApplicationCallCenterEntity, (applicationCallcenter) => applicationCallcenter.user)
-  applicationCallCenter: ApplicationCallCenterEntity[];
-  
   @OneToMany(
-    () => HistoryAplicationEntity,
-    (history) => history.user_history,
+    () => ApplicationCallCenterEntity,
+    (applicationCallcenter) => applicationCallcenter.user,
   )
+  applicationCallCenter: ApplicationCallCenterEntity[];
+
+  @OneToMany(() => HistoryAplicationEntity, (history) => history.user_history)
   history: HistoryAplicationEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
   create_data: Date;
-
 }
