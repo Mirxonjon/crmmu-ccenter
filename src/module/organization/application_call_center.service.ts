@@ -605,7 +605,7 @@ export class ApplicationCallCenterServise {
         // crossfields: body.crossfields,
         additional_phone: body.additional_phone,
 
-        street_and_appartment: body.street_and_appartment,
+        street_and_apartment: body.street_and_apartment,
         income_date: body.income_date,
         incoming_number: `MU/${ApplicationCount}`,
         organization_name: body.organization_name,
@@ -694,9 +694,9 @@ export class ApplicationCallCenterServise {
 
       mfy: body.mfy || findaplicationCallCenter.mfy,
 
-      street_and_appartment:
-        body.street_and_appartment ||
-        findaplicationCallCenter.street_and_appartment,
+      street_and_apartment:
+        body.street_and_apartment ||
+        findaplicationCallCenter.street_and_apartment,
 
       gender: body.gender || findaplicationCallCenter.gender,
 

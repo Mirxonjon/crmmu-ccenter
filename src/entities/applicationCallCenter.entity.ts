@@ -119,7 +119,7 @@ export class ApplicationCallCenterEntity extends BaseEntity {
     type: 'character varying',
     nullable: true,
   })
-  street_and_appartment: string;
+  street_and_apartment: string;
 
   @Column({
     type: 'character varying',

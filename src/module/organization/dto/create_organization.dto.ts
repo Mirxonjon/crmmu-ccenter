@@ -66,7 +66,7 @@ export class CreateApplicationCallCenterDto {
 
   mfy: string;
 
-  street_and_appartment: string;
+  street_and_apartment: string;
 
   operator_number: string;
 
