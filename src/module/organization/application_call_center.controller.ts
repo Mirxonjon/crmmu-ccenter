@@ -244,7 +244,7 @@ export class ApplicationCallCenterController {
         },
         status: {
           type: 'string',
-          default: 'True',
+          default: 'Янги',
         },
       },
     },

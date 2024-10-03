@@ -12,6 +12,7 @@ import { DistrictModule } from './module/dictrict/district.module';
 import { AuthModule } from './module/auth/auth.module';
 import { SendedOrganizationModule } from './module/sende_organization/sended_organization.module';
 import { RolesGuard } from './module/auth/guards/roles.guard';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { RolesGuard } from './module/auth/guards/roles.guard';
         ttl: 3600000,
       }),
     }),
+    ScheduleModule.forRoot(),
     AuthModule,
     SectionCategoriesModule,
     SubCategorySectionModule,
@@ -39,4 +41,4 @@ import { RolesGuard } from './module/auth/guards/roles.guard';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }

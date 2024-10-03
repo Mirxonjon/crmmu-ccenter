@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "telecom-398714",
+  "private_key_id": "ef30abb7edf770dd006a0509ae85e56523a73a22",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDSld/QSMebjvk1\nvxgGcUSVdL29CnhOjuC7rG8i2l4bDU9bKycB+deLre5oLUzks9EqGoDTbU0lU4id\n+gkuX5ywSon7jHV0szpnxPtXTQAktgVRLdHkgXdWIn4wmCbhGZFaD3RFj5ZGtbPz\nvnP7LQoesNal/0y60lsdUpOtj/mTgMzBsor9uJBSxSCzIoMsQKecdjMuo/9MjB8B\nUb83ZN9+YroTO0yaZ5atyn3ORKoMJ1OoIOOW+2GlCrU5shelkfLHqppGGmkdRr8K\ntTYl+SQ+86FQdBHAwZ6FGDbfPOaEdIPnA3ZQ9N9oUv70ztsBCl0kCzGTD0I4LDOj\nSO2KWstXAgMBAAECggEADdJ+kqpO8nFLqZvLFOksX5mpC+vQV7+zFT535lQU/IuU\nG4oqkPZNj+0xCoTRWOr182CH94Njc+wWud/RPcpS0OjOQ8TwFLfgQTLBw0ovlI6f\nV2O9iip2oyBieLK+oo8jZkOWFdbF6LWWg+I1X1WRJiXkq5f6o6yZBG9eIsn3ehdJ\n5KzXq1YWxJTZ+FTt1Kqujl2iJgPkVfd1EXy5CcSEoqIpUwjWjMIBTAmLch3voUL2\nJQg1C+GZvvJJ5Tyka3LXvGRWfluaLTO1RPAEjWf7JBHYyEL3itbVVdVEoE+xE7qk\nn4zjKp1z0Y/RZk6TUcHRHRKk2Iu0vHPgiIqziCoVoQKBgQD/sZ3VydHXJ1D6u7Ut\nuQ3b+ibPSMhy8QYFExTXe4vzcRGTcWpH9yvv98HFLSDYE0sL1Cc0IFLxjNICoGht\nIlmzw+QW1mFtAh3lFVvSFFdk6umkXPucHcYtEJF9WEUSFPSx6Ftze7v/pJ221dxm\nYFT9ABBrBMv79r18ZuDgWxyjUQKBgQDS1m3+pkcMAo1UIwP8+t/sAXA64B9KoA3Y\nfaJXcqyZ+eiNLduize3yAsYogxBQvYgbUEZK0uHyzzzzxcpZ3mBOdDqCPpR45OlY\nFcQbKVhlcUy6v2SN9/t+CDLddSzKxQO8rZIgqHjc93IONV1cbSSwr7pPLv2/c674\nMqwWxiDKJwKBgCQhyEkGrPV3Y9Uao16jsNauAb/27AR6FLyw1pggqEUtbCtmsnsa\n7YWKgEJJv0NpbohsYWHXU4E4whCG9Fq/qOdjPh8QClJqIylVHFWSdEsZewyz6wZD\nmtaRac3JpHEKrw1Y5VtrV8SnUXYdwHhjEn9x+9/znJOtaVdj/lEV7vURAoGAXK/t\n3TQmKa55iRJ3r2Buzmb3erqKpxjj3Vel5cHBBVPrGx2c396eC3WSvb6YjpYz3qYU\nsNIyiLb4ecZrJcTwG61XB2kRhnBD8PhopPQxKy965uI7B3qMMiTSj67yiRXBhdHc\nWsUVlTanCn4FVBubNJ2cTzE+Vks6EVzdcImbYqMCgYBcUWLgqh05/w6btcsK7S8g\n+OJ8AK01EOzQfLVOm8drCmFQlfoFr3j2emknkNYtdZ1dF5r/yG1JzE/BPWWvQ4Gg\ntwAQKFOhqPJ+G8tfxgC6nJpVxhXjBZIbYbtJO538N6PpgnPqoxbiGwuTQinO8ZtH\nbmIYVZajtEN5cTZWBXDzzQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "tttt-663@telecom-398714.iam.gserviceaccount.com",
+  "client_id": "101336729490402783107",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tttt-663%40telecom-398714.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

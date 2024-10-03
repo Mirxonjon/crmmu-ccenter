@@ -7,11 +7,11 @@ import { Sub_Category_Section_Entity } from 'src/entities/sub_category_org.entit
 import { ApplicationCallCenterEntity } from 'src/entities/applicationCallCenter.entity';
 import { Between, ILike } from 'typeorm';
 import { District_Entity } from 'src/entities/district.entity';
-import { CustomRequest } from 'src/types';
+import { ApplicationStatuses, CustomRequest } from 'src/types';
 import { HistoryAplicationEntity } from 'src/entities/history.entity';
 import { SendedOrganizationEntity } from 'src/entities/sende_organization.entity';
 import { toUnixTimestamp } from 'src/utils/times';
-import { Cron } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { googleCloudAsync } from 'src/utils/google_cloud';
 
 @Injectable()
@@ -601,6 +601,8 @@ export class ApplicationCallCenterServise {
     }
     const ApplicationCount = await ApplicationCallCenterEntity.count();
 
+    console.log(await toUnixTimestamp(new Date()), 'UNIX TIME');
+
     const createdOrg = await ApplicationCallCenterEntity.createQueryBuilder()
       .insert()
       .into(ApplicationCallCenterEntity)
@@ -636,7 +638,8 @@ export class ApplicationCallCenterServise {
         user: {
           id: request.userId,
         },
-        status_unixTimestamp: `${toUnixTimestamp(new Date())}`,
+        status: ApplicationStatuses.New,
+        status_unixTimestamp: `${await toUnixTimestamp(new Date())}`,
       })
       .execute()
       .catch(() => {
@@ -802,15 +805,82 @@ export class ApplicationCallCenterServise {
     await ApplicationCallCenterEntity.delete({ id });
   }
 
-  @Cron('59 23 * * *')
+  @Cron(CronExpression.EVERY_30_SECONDS)
   async updateAplecation() {
-    const findApplications = await ApplicationCallCenterEntity.find({
+    console.log('CRON LOG');
+    const currentUnixTime = Math.floor(Date.now() / 1000);
+    const unixTimeIn24Hours = 1 * 86400;
+    const unixTimeIn15Days = 15 * 86400;
+    const unixTimeIn30Days = 30 * 86400;
+    // const unixTimeIn60Seconds = 60;
+
+    const applicationsInNewStatus = await ApplicationCallCenterEntity.find({
       where: {
         IsDraf: 'false',
-        status: 'Кўриб чиқиш жараёнида',
+        status: ApplicationStatuses.New,
       },
     });
+
+    for (let i = 0; i < applicationsInNewStatus.length; i++) {
+      console.log(applicationsInNewStatus[i])
+      const applicationTime = applicationsInNewStatus[i].status_unixTimestamp
+
+      if (currentUnixTime - +applicationTime > unixTimeIn24Hours) {
+        ApplicationCallCenterEntity.update(applicationsInNewStatus[i].id, {
+          status: ApplicationStatuses.Process,
+        });
+      }
+    }
+
+    const applicationsInProcessStatus = await ApplicationCallCenterEntity.find({
+      where: {
+        IsDraf: 'false',
+        status: ApplicationStatuses.Process,
+      },
+    });
+
+    for (let i = 0; i < applicationsInProcessStatus.length; i++) {
+      console.log(applicationsInProcessStatus[i])
+      const applicationTime = applicationsInProcessStatus[i].status_unixTimestamp
+
+      if (currentUnixTime - +applicationTime > unixTimeIn15Days) {
+        ApplicationCallCenterEntity.update(applicationsInProcessStatus[i].id, {
+          status: ApplicationStatuses.Extended,
+        });
+      }
+    }
+
+    const applicationsInExtendedStatus = await ApplicationCallCenterEntity.find({
+      where: {
+        IsDraf: 'false',
+        status: ApplicationStatuses.Extended,
+      },
+    });
+
+    for (let i = 0; i < applicationsInExtendedStatus.length; i++) {
+      console.log(applicationsInExtendedStatus[i])
+      const applicationTime = applicationsInExtendedStatus[i].status_unixTimestamp
+
+      if (currentUnixTime - +applicationTime > unixTimeIn30Days) {
+        ApplicationCallCenterEntity.update(applicationsInExtendedStatus[i].id, {
+          status: ApplicationStatuses.Extended,
+        });
+      }
+    }
+
+    /*const findApplications = await ApplicationCallCenterEntity.find({
+      where: {
+        IsDraf: 'false',
+        status: ApplicationStatuses.Process,
+      },
+    });
+    console.log(findApplications, 'APPS')
+
     const atTheTime = await toUnixTimestamp(new Date());
+
+    const currentUnixTime = Math.floor(Date.now() / 1000); // Get current time in seconds
+    const timeIn30Seconds = currentUnixTime + 30;
+    console.log(timeIn30Seconds, '30 UNIX')
 
     for (const i of findApplications) {
       const minesCreteDateAtTheTime = atTheTime - +i.status_unixTimestamp;
@@ -844,6 +914,6 @@ export class ApplicationCallCenterServise {
           });
         }
       }
-    }
+    }*/
   }
 }

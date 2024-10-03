@@ -62,6 +62,9 @@ export class CreateApplicationCallCenterDto {
   @IsString()
   IsDraf: string;
 
+  @IsString()
+  status: string;
+
   applicant_birthday: string;
 
   mfy: string;

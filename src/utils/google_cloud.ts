@@ -17,7 +17,7 @@ export const googleCloud = (file: any | any[]) => {
   const blob = bucket.file(imageLink);
   const blobStream = blob.createWriteStream();
 
-  blobStream.on('error', (err) => {});
+  blobStream.on('error', (err) => { });
 
   blobStream.end(a[0]?.buffer);
   return imageLink;
@@ -26,7 +26,7 @@ export const googleCloud = (file: any | any[]) => {
 export const googleCloudAsync = async (file: any | any[]): Promise<string> => {
   const a: any[] = [];
   a.push(file);
-  const imageLink = join(v4() + extname(a[0]?.originalname));
+  const imageLink = join(v4() + extname(a[0][0]?.originalname));
   const blob = bucket.file(imageLink);
   const blobStream = blob.createWriteStream();
 
