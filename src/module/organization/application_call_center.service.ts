@@ -805,8 +805,8 @@ export class ApplicationCallCenterServise {
     await ApplicationCallCenterEntity.delete({ id });
   }
 
-  @Cron(CronExpression.EVERY_30_SECONDS)
-  async updateAplecation() {
+  @Cron(CronExpression.EVERY_DAY_AT_1AM)
+  async updateApplication() {
     console.log('CRON LOG');
     const currentUnixTime = Math.floor(Date.now() / 1000);
     const unixTimeIn24Hours = 1 * 86400;
@@ -867,53 +867,5 @@ export class ApplicationCallCenterServise {
         });
       }
     }
-
-    /*const findApplications = await ApplicationCallCenterEntity.find({
-      where: {
-        IsDraf: 'false',
-        status: ApplicationStatuses.Process,
-      },
-    });
-    console.log(findApplications, 'APPS')
-
-    const atTheTime = await toUnixTimestamp(new Date());
-
-    const currentUnixTime = Math.floor(Date.now() / 1000); // Get current time in seconds
-    const timeIn30Seconds = currentUnixTime + 30;
-    console.log(timeIn30Seconds, '30 UNIX')
-
-    for (const i of findApplications) {
-      const minesCreteDateAtTheTime = atTheTime - +i.status_unixTimestamp;
-      const fifteenDays = 15 * 24 * 60 * 60;
-      if (fifteenDays < minesCreteDateAtTheTime) {
-        {
-          ApplicationCallCenterEntity.update(i.id, {
-            status: `Кўриб чиқиш жараёни чўздирилган`,
-          });
-        }
-      }
-      // Bu yerda kerakli vazifani bajaring
-    }
-
-    const findApplicationsAfterFifteenDays =
-      await ApplicationCallCenterEntity.find({
-        where: {
-          IsDraf: 'false',
-          status: 'Кўриб чиқиш жараёни чўздирилган',
-        },
-      });
-    // let atTheTime =await toUnixTimestamp(new Date())
-
-    for (const i of findApplicationsAfterFifteenDays) {
-      const minesCreteDateAtTheTime = atTheTime - +i.status_unixTimestamp;
-      const thirtyDays = 30 * 24 * 60 * 60;
-      if (thirtyDays < minesCreteDateAtTheTime) {
-        {
-          ApplicationCallCenterEntity.update(i.id, {
-            status: `Мурожаат муддати ўтган`,
-          });
-        }
-      }
-    }*/
   }
 }
