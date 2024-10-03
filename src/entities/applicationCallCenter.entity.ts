@@ -71,6 +71,18 @@ export class ApplicationCallCenterEntity extends BaseEntity {
     type: 'character varying',
     nullable: true,
   })
+  status: string;
+
+  @Column({
+    type: 'character varying',
+    nullable: true,
+  })
+  status_unixTimestamp: string;
+
+  @Column({
+    type: 'character varying',
+    nullable: true,
+  })
   organization_name: string;
 
   @Column({
@@ -177,6 +189,12 @@ export class ApplicationCallCenterEntity extends BaseEntity {
     (history) => history.applicationCallCenter,
   )
   history: HistoryAplicationEntity[];
+
+  @Column({
+    type: 'character varying',
+    nullable: true,
+  })
+  response_file: string;
 
   // @OneToMany(
   //   () => Picture_Organization_Entity,

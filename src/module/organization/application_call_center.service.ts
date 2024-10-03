@@ -10,6 +10,9 @@ import { District_Entity } from 'src/entities/district.entity';
 import { CustomRequest } from 'src/types';
 import { HistoryAplicationEntity } from 'src/entities/history.entity';
 import { SendedOrganizationEntity } from 'src/entities/sende_organization.entity';
+import { toUnixTimestamp } from 'src/utils/times';
+import { Cron } from '@nestjs/schedule';
+import { googleCloudAsync } from 'src/utils/google_cloud';
 
 @Injectable()
 export class ApplicationCallCenterServise {
@@ -147,57 +150,60 @@ export class ApplicationCallCenterServise {
 
     if (fromDate == 'null' || untilDate == 'null') {
       const [results, total] = await ApplicationCallCenterEntity.findAndCount({
-        where: [{
-          incoming_number:
-            income_number == 'null' ? null : ILike(`%${income_number}%`),
-          applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
-          phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          // additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
-          response: response == 'null' ? null : response,
-          IsDraf: 'false',
-          sub_category_call_center: {
-            id: subCategoryId == 'null' ? null : subCategoryId,
-            category_org: {
-              id: categoryId == 'null' ? null : categoryId,
+        where: [
+          {
+            incoming_number:
+              income_number == 'null' ? null : ILike(`%${income_number}%`),
+            applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
+            phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            // additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            applicant_birthday:
+              applicant_birthday == 'null' ? null : applicant_birthday,
+            response: response == 'null' ? null : response,
+            IsDraf: 'false',
+            sub_category_call_center: {
+              id: subCategoryId == 'null' ? null : subCategoryId,
+              category_org: {
+                id: categoryId == 'null' ? null : categoryId,
+              },
+            },
+            districts: {
+              id: district == 'null' ? null : district,
+              region: {
+                id: region == 'null' ? null : region,
+              },
+            },
+            user: {
+              id: operator == 'null' ? null : operator,
             },
           },
-          districts: {
-            id: district == 'null' ? null : district,
-            region: {
-              id: region == 'null' ? null : region,
+          {
+            incoming_number:
+              income_number == 'null' ? null : ILike(`%${income_number}%`),
+            applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
+            // phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            applicant_birthday:
+              applicant_birthday == 'null' ? null : applicant_birthday,
+            response: response == 'null' ? null : response,
+            IsDraf: 'false',
+            sub_category_call_center: {
+              id: subCategoryId == 'null' ? null : subCategoryId,
+              category_org: {
+                id: categoryId == 'null' ? null : categoryId,
+              },
+            },
+            districts: {
+              id: district == 'null' ? null : district,
+              region: {
+                id: region == 'null' ? null : region,
+              },
+            },
+            user: {
+              id: operator == 'null' ? null : operator,
             },
           },
-          user: {
-            id: operator == 'null' ? null : operator,
-          },
-        },
-        {
-          incoming_number:
-            income_number == 'null' ? null : ILike(`%${income_number}%`),
-          applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
-          // phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
-          response: response == 'null' ? null : response,
-          IsDraf: 'false',
-          sub_category_call_center: {
-            id: subCategoryId == 'null' ? null : subCategoryId,
-            category_org: {
-              id: categoryId == 'null' ? null : categoryId,
-            },
-          },
-          districts: {
-            id: district == 'null' ? null : district,
-            region: {
-              id: region == 'null' ? null : region,
-            },
-          },
-          user: {
-            id: operator == 'null' ? null : operator,
-          },
-        }
-      ],
+        ],
         relations: {
           seded_to_Organization: true,
           sub_category_call_center: {
@@ -241,53 +247,56 @@ export class ApplicationCallCenterServise {
       );
 
       const [results, total] = await ApplicationCallCenterEntity.findAndCount({
-        where: [{
-          incoming_number:
-            income_number == 'null' ? null : ILike(`%${income_number}%`),
-          applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
-          response: response == 'null' ? null : response,
-          phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          // additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
-          IsDraf: 'false',
-          sub_category_call_center: {
-            id: subCategoryId == 'null' ? null : subCategoryId,
-            category_org: {
-              id: categoryId == 'null' ? null : categoryId,
+        where: [
+          {
+            incoming_number:
+              income_number == 'null' ? null : ILike(`%${income_number}%`),
+            applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
+            response: response == 'null' ? null : response,
+            phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            // additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            applicant_birthday:
+              applicant_birthday == 'null' ? null : applicant_birthday,
+            IsDraf: 'false',
+            sub_category_call_center: {
+              id: subCategoryId == 'null' ? null : subCategoryId,
+              category_org: {
+                id: categoryId == 'null' ? null : categoryId,
+              },
             },
-          },
-          districts: {
-            id: district == 'null' ? null : district,
-            region: {
-              id: region == 'null' ? null : region,
+            districts: {
+              id: district == 'null' ? null : district,
+              region: {
+                id: region == 'null' ? null : region,
+              },
             },
+            create_data: Between(fromDateFormatted, untilDateFormatted),
           },
-          create_data: Between(fromDateFormatted, untilDateFormatted),
-        },
-        {
-          incoming_number:
-            income_number == 'null' ? null : ILike(`%${income_number}%`),
-          applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
-          response: response == 'null' ? null : response,
-          // phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
-          IsDraf: 'false',
-          sub_category_call_center: {
-            id: subCategoryId == 'null' ? null : subCategoryId,
-            category_org: {
-              id: categoryId == 'null' ? null : categoryId,
+          {
+            incoming_number:
+              income_number == 'null' ? null : ILike(`%${income_number}%`),
+            applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
+            response: response == 'null' ? null : response,
+            // phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            applicant_birthday:
+              applicant_birthday == 'null' ? null : applicant_birthday,
+            IsDraf: 'false',
+            sub_category_call_center: {
+              id: subCategoryId == 'null' ? null : subCategoryId,
+              category_org: {
+                id: categoryId == 'null' ? null : categoryId,
+              },
             },
-          },
-          districts: {
-            id: district == 'null' ? null : district,
-            region: {
-              id: region == 'null' ? null : region,
+            districts: {
+              id: district == 'null' ? null : district,
+              region: {
+                id: region == 'null' ? null : region,
+              },
             },
+            create_data: Between(fromDateFormatted, untilDateFormatted),
           },
-          create_data: Between(fromDateFormatted, untilDateFormatted),
-        },
-      ],
+        ],
         relations: {
           sub_category_call_center: {
             category_org: true,
@@ -340,57 +349,60 @@ export class ApplicationCallCenterServise {
 
     if (fromDate == 'null' || untilDate == 'null') {
       const [results, total] = await ApplicationCallCenterEntity.findAndCount({
-        where: [{
-          incoming_number:
-            income_number == 'null' ? null : ILike(`%${income_number}%`),
-          applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
-          response: response == 'null' ? null : response,
-          phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          // additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
-          IsDraf: 'true',
-          sub_category_call_center: {
-            id: subCategoryId == 'null' ? null : subCategoryId,
-            category_org: {
-              id: categoryId == 'null' ? null : categoryId,
+        where: [
+          {
+            incoming_number:
+              income_number == 'null' ? null : ILike(`%${income_number}%`),
+            applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
+            response: response == 'null' ? null : response,
+            phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            // additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            applicant_birthday:
+              applicant_birthday == 'null' ? null : applicant_birthday,
+            IsDraf: 'true',
+            sub_category_call_center: {
+              id: subCategoryId == 'null' ? null : subCategoryId,
+              category_org: {
+                id: categoryId == 'null' ? null : categoryId,
+              },
+            },
+            districts: {
+              id: district == 'null' ? null : district,
+              region: {
+                id: region == 'null' ? null : region,
+              },
+            },
+            user: {
+              id: operator == 'null' ? null : operator,
             },
           },
-          districts: {
-            id: district == 'null' ? null : district,
-            region: {
-              id: region == 'null' ? null : region,
+          {
+            incoming_number:
+              income_number == 'null' ? null : ILike(`%${income_number}%`),
+            applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
+            response: response == 'null' ? null : response,
+            // phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            applicant_birthday:
+              applicant_birthday == 'null' ? null : applicant_birthday,
+            IsDraf: 'true',
+            sub_category_call_center: {
+              id: subCategoryId == 'null' ? null : subCategoryId,
+              category_org: {
+                id: categoryId == 'null' ? null : categoryId,
+              },
+            },
+            districts: {
+              id: district == 'null' ? null : district,
+              region: {
+                id: region == 'null' ? null : region,
+              },
+            },
+            user: {
+              id: operator == 'null' ? null : operator,
             },
           },
-          user: {
-            id: operator == 'null' ? null : operator,
-          },
-        }, 
-        {
-          incoming_number:
-            income_number == 'null' ? null : ILike(`%${income_number}%`),
-          applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
-          response: response == 'null' ? null : response,
-          // phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
-          IsDraf: 'true',
-          sub_category_call_center: {
-            id: subCategoryId == 'null' ? null : subCategoryId,
-            category_org: {
-              id: categoryId == 'null' ? null : categoryId,
-            },
-          },
-          districts: {
-            id: district == 'null' ? null : district,
-            region: {
-              id: region == 'null' ? null : region,
-            },
-          },
-          user: {
-            id: operator == 'null' ? null : operator,
-          },
-        }
-      ],
+        ],
         relations: {
           sub_category_call_center: {
             category_org: true,
@@ -434,53 +446,56 @@ export class ApplicationCallCenterServise {
       );
 
       const [results, total] = await ApplicationCallCenterEntity.findAndCount({
-        where: [{
-          incoming_number:
-            income_number == 'null' ? null : ILike(`%${income_number}%`),
-          applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
-          response: response == 'null' ? null : response,
-          phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          // additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
-          IsDraf: 'true',
-          sub_category_call_center: {
-            id: subCategoryId == 'null' ? null : subCategoryId,
-            category_org: {
-              id: categoryId == 'null' ? null : categoryId,
+        where: [
+          {
+            incoming_number:
+              income_number == 'null' ? null : ILike(`%${income_number}%`),
+            applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
+            response: response == 'null' ? null : response,
+            phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            // additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            applicant_birthday:
+              applicant_birthday == 'null' ? null : applicant_birthday,
+            IsDraf: 'true',
+            sub_category_call_center: {
+              id: subCategoryId == 'null' ? null : subCategoryId,
+              category_org: {
+                id: categoryId == 'null' ? null : categoryId,
+              },
             },
-          },
-          districts: {
-            id: district == 'null' ? null : district,
-            region: {
-              id: region == 'null' ? null : region,
+            districts: {
+              id: district == 'null' ? null : district,
+              region: {
+                id: region == 'null' ? null : region,
+              },
             },
+            create_data: Between(fromDateFormatted, untilDateFormatted),
           },
-          create_data: Between(fromDateFormatted, untilDateFormatted),
-        },
-        {
-          incoming_number:
-            income_number == 'null' ? null : ILike(`%${income_number}%`),
-          applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
-          response: response == 'null' ? null : response,
-          // phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
-          applicant_birthday: applicant_birthday == 'null' ? null : applicant_birthday ,
-          IsDraf: 'true',
-          sub_category_call_center: {
-            id: subCategoryId == 'null' ? null : subCategoryId,
-            category_org: {
-              id: categoryId == 'null' ? null : categoryId,
+          {
+            incoming_number:
+              income_number == 'null' ? null : ILike(`%${income_number}%`),
+            applicant: applicant == 'null' ? null : ILike(`%${applicant}%`),
+            response: response == 'null' ? null : response,
+            // phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            additional_phone: phone == 'null' ? null : ILike(`%${phone}%`),
+            applicant_birthday:
+              applicant_birthday == 'null' ? null : applicant_birthday,
+            IsDraf: 'true',
+            sub_category_call_center: {
+              id: subCategoryId == 'null' ? null : subCategoryId,
+              category_org: {
+                id: categoryId == 'null' ? null : categoryId,
+              },
             },
-          },
-          districts: {
-            id: district == 'null' ? null : district,
-            region: {
-              id: region == 'null' ? null : region,
+            districts: {
+              id: district == 'null' ? null : district,
+              region: {
+                id: region == 'null' ? null : region,
+              },
             },
+            create_data: Between(fromDateFormatted, untilDateFormatted),
           },
-          create_data: Between(fromDateFormatted, untilDateFormatted),
-        },
-      ],
+        ],
         relations: {
           sub_category_call_center: {
             category_org: true,
@@ -621,6 +636,7 @@ export class ApplicationCallCenterServise {
         user: {
           id: request.userId,
         },
+        status_unixTimestamp: `${toUnixTimestamp(new Date())}`,
       })
       .execute()
       .catch(() => {
@@ -629,6 +645,31 @@ export class ApplicationCallCenterServise {
 
     return;
     // }
+  }
+
+  async response(
+    request: CustomRequest,
+    applicationId: string,
+    file: Express.Multer.File,
+  ) {
+    try {
+      const linkImage: string = await googleCloudAsync(file);
+      console.log(linkImage, 'LINK IMAGE');
+
+      const updatedOrganization = await ApplicationCallCenterEntity.update(
+        applicationId,
+        {
+          response_file: linkImage,
+        },
+      ).catch((e) => {
+        throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+      });
+
+      return;
+    } catch (error) {
+      console.log(error, 'ERROR IN RESPONSE');
+      throw Error(error.message);
+    }
   }
 
   async update(
@@ -759,5 +800,50 @@ export class ApplicationCallCenterServise {
     }
 
     await ApplicationCallCenterEntity.delete({ id });
+  }
+
+  @Cron('59 23 * * *')
+  async updateAplecation() {
+    const findApplications = await ApplicationCallCenterEntity.find({
+      where: {
+        IsDraf: 'false',
+        status: 'Кўриб чиқиш жараёнида',
+      },
+    });
+    const atTheTime = await toUnixTimestamp(new Date());
+
+    for (const i of findApplications) {
+      const minesCreteDateAtTheTime = atTheTime - +i.status_unixTimestamp;
+      const fifteenDays = 15 * 24 * 60 * 60;
+      if (fifteenDays < minesCreteDateAtTheTime) {
+        {
+          ApplicationCallCenterEntity.update(i.id, {
+            status: `Кўриб чиқиш жараёни чўздирилган`,
+          });
+        }
+      }
+      // Bu yerda kerakli vazifani bajaring
+    }
+
+    const findApplicationsAfterFifteenDays =
+      await ApplicationCallCenterEntity.find({
+        where: {
+          IsDraf: 'false',
+          status: 'Кўриб чиқиш жараёни чўздирилган',
+        },
+      });
+    // let atTheTime =await toUnixTimestamp(new Date())
+
+    for (const i of findApplicationsAfterFifteenDays) {
+      const minesCreteDateAtTheTime = atTheTime - +i.status_unixTimestamp;
+      const thirtyDays = 30 * 24 * 60 * 60;
+      if (thirtyDays < minesCreteDateAtTheTime) {
+        {
+          ApplicationCallCenterEntity.update(i.id, {
+            status: `Мурожаат муддати ўтган`,
+          });
+        }
+      }
+    }
   }
 }

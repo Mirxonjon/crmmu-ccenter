@@ -57,13 +57,13 @@ export class ApplicationCallCenterController {
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'pageSize', required: false })
   async findallstatisticsfilter(
-    @Query('categoryId') categoryId: string = 'null',
-    @Query('subCategoryId') subCategoryId: string = 'null',
-    @Query('region') region: string = 'null',
-    @Query('date_from') fromDate: string = 'null',
-    @Query('date_to') untilDate: string = 'null',
-    @Query('page') page: string = '1',
-    @Query('pageSize') pageSize: string = '10',
+    @Query('categoryId') categoryId = 'null',
+    @Query('subCategoryId') subCategoryId = 'null',
+    @Query('region') region = 'null',
+    @Query('date_from') fromDate = 'null',
+    @Query('date_to') untilDate = 'null',
+    @Query('page') page = '1',
+    @Query('pageSize') pageSize = '10',
   ) {
     return await this.#_service.findallstatisticsfilter(
       categoryId,
@@ -242,6 +242,10 @@ export class ApplicationCallCenterController {
           type: 'string',
           default: 'false',
         },
+        status: {
+          type: 'string',
+          default: 'True',
+        },
       },
     },
   })
@@ -257,6 +261,34 @@ export class ApplicationCallCenterController {
     // console.log(request.userId ,'iiiiii');
 
     return await this.#_service.create(request, createOrganizationDto);
+  }
+
+  @RequiredRoles(RolesEnum.ADMIN)
+  @Post('/response/:id')
+  @ApiBadRequestResponse()
+  @ApiNotFoundResponse()
+  @ApiOkResponse()
+  @UseInterceptors(AnyFilesInterceptor())
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  async response(
+    @Request() request: CustomRequest,
+    @Param('id') applicationId: string,
+    @UploadedFiles() file: Express.Multer.File,
+  ): Promise<void> {
+    // console.log(request.userId ,'iiiiii');
+
+    return await this.#_service.response(request, applicationId, file);
   }
 
   // @UseGuards(jwtGuard)
