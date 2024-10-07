@@ -39,9 +39,10 @@ export const googleCloudAsync = async (file: any | any[]): Promise<string> => {
       resolve(imageLink);
     });
 
-    blobStream.end(a[0]?.buffer);
+    blobStream.end(a[0][0]?.buffer);
   });
 };
+
 
 export const deleteFileCloud = async (imageLink: string) => {
   new Promise((resolve, reject) => {
