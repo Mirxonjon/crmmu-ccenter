@@ -1,64 +1,64 @@
 import { IsBoolean, IsString } from 'class-validator';
 
 export class UpdateApplicationCallCenterDto {
-  @IsString()
+  // @IsString()
   // @IsNotEmpty()
   sub_category_id: string;
 
-  @IsString()
+  // @IsString()
   district_id: string;
 
-  @IsString()
+  // @IsString()
   // @IsNotEmpty()
   applicant: string;
 
-  @IsString()
+  // @IsString()
   application_type: string;
 
-  @IsString()
+  // @IsString()
   comment: string;
 
   // @IsString()
   // income_number: string;
 
-  @IsString()
+  // @IsString()
   phone: string;
   // @IsString()
   // crossfields: string;
 
-  @IsString()
+  // @IsString()
   income_date: string;
 
   // @IsString()
   // // @IsNotEmpty()
   // incoming_number: string;
 
-  @IsString()
+  // @IsString()
   organization_name: string;
 
-  @IsString()
+  // @IsString()
   organization_type: string;
 
-  @IsString()
+  // @IsString()
   perform_date: string;
 
-  @IsString()
+  // @IsString()
   performer: string;
 
-  @IsString()
+  // @IsString()
   resend_application: string;
 
-  @IsString()
+  // @IsString()
   response: string;
 
-  @IsString()
+  // @IsString()
   sended_to_organizations: string;
 
-  @IsString()
+  // @IsString()
   IsDraf: string;
 
   applicant_birthday: string;
-
+  
   mfy: string;
 
   street_and_apartment: string;
@@ -68,4 +68,4 @@ export class UpdateApplicationCallCenterDto {
   additional_phone: string;
 
   gender: string;
-}
+}   
